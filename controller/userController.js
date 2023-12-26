@@ -9,17 +9,21 @@ exports.postSignUp=async (req,res)=>{
         await User.findOne({ where: { email: email } })
           .then(async (user) => {
             if (user) {
-              res.status(409).send(
-                  `<script>alert('This email is already taken. Please choose another one.'); window.location.href='/'</script>`
-                );
+              res.status(409).json({
+                sucess:false,
+                message:"Email id already exists!!"
+              })
             } else {
                 await User.create({
                   name: name,
                   email: email,
                   password: password,
                 });
-              res.status(200).send(
-                  `<script>alert('User Created Successfully!'); window.location.href='/'</script>`
+              res.status(201).json({
+                sucess:true,
+                message:"Account created successfully"
+              }
+                  
                 );
             }
           })

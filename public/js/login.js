@@ -5,6 +5,9 @@ const signUpBtn = document.getElementById("signUpBtn");
 const loginBtn = document.getElementById("loginBtn");
 const loginEmail = document.getElementById("loginEmail");
 const loginPassword = document.getElementById("loginPassword");
+const username=document.getElementById("name");
+const email=document.getElementById("email");
+const password=document.getElementById("password");
 
 signUp.addEventListener("click", () => {
   container.classList.add("right-panel-active");
@@ -35,4 +38,32 @@ function login() {
     });
 }
 
-loginBtn.addEventListener("click", login);
+function signup(){
+    const signupDetails = {
+        name: username.value,
+        email: email.value,
+        password:password.value
+      };
+      axios
+      .post("http://localhost:4000/user/signup", signupDetails)
+      .then((result) => {
+        alert(result.data.message);
+      })
+      .catch((error) => {
+        if (error.response) {
+          const errorMessage = error.response.data.message;
+          alert(errorMessage);
+        } else {
+          alert("An error occurred. Please try again later.");
+        }
+      });
+
+}
+loginBtn.addEventListener("click", async (e)=>{
+    e.preventDefault();
+    await login()
+});
+signUpBtn.addEventListener("click",async(e)=>{
+    e.preventDefault();
+    await signup();
+})

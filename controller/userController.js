@@ -29,3 +29,34 @@ exports.postSignUp=async (req,res)=>{
       }
 
 }
+
+exports.postLogin=async (req,res)=>{
+    try {
+        const email = req.body.loginEmail;
+        const password = req.body.loginPassword;
+    
+       await User.findOne({ where: { email: email } }).then((user) => {
+          if (user) {
+              if (user.password == password) {
+                return res.status(200).json({
+                  success: true,
+                  message: "Login Successful!"
+                });
+              } else {
+                return res.status(401).json({
+                  success: false,
+                  message: "Password Incorrect!",
+                });
+              }
+          } else {
+            return res.status(404).json({
+              success: false,
+              message: "User doesn't Exists!",
+            });
+          }
+        });
+      } catch (error) {
+        console.log(error);
+      }
+}
+

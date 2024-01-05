@@ -27,6 +27,8 @@ function login() {
     .post("http://localhost:4000/user/login", loginDetails)
     .then((result) => {
       alert(result.data.message);
+      localStorage.setItem("token", result.data.token);
+      window.location.href = "/homePage";
     })
     .catch((error) => {
       if (error.response) {
